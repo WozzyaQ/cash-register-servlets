@@ -5,7 +5,7 @@ import com.epam.ua.wozzya.model.dao.entity.enumeration.Role;
 import java.util.List;
 import java.util.Objects;
 
-public class Worker {
+public class Worker extends AbstractEntity{
     private long id;
     private String login;
     private String name;

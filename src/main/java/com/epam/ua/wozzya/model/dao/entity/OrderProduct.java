@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Objects;
 
-public class OrderProduct {
+public class OrderProduct extends AbstractEntity{
     private long orderId;
     private long productId;
     private int quantity;

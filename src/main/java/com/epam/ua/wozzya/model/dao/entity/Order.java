@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class Order{
+public class Order extends AbstractEntity{
     private long id;
     private Worker creator;
     private boolean closed;
