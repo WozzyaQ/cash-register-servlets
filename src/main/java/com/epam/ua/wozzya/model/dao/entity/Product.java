@@ -1,4 +1,4 @@
-package com.epam.ua.wozzya.dao.entity;
+package com.epam.ua.wozzya.model.dao.entity;
 
 import java.math.BigDecimal;
 import java.sql.Date;
