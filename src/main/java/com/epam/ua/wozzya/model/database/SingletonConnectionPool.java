@@ -18,8 +18,6 @@ public class SingletonConnectionPool extends AbstractConnectionPool implements C
     private SingletonConnectionPool() {
         super();
         initPool();
-
-
     }
 
     private static void initPool() {
@@ -29,7 +27,8 @@ public class SingletonConnectionPool extends AbstractConnectionPool implements C
 
         for (int i = 0; i < INITIAL_POOL_SIZE; ++i) {
             try{
-                pool.add(connectionSupplier.get());
+
+                pool.add(new PooledConnectionProxy(connectionSupplier.get()));
             } catch (SQLException e) {
                 e.printStackTrace();
             }

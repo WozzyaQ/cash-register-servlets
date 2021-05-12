@@ -8,16 +8,14 @@ import java.util.concurrent.Executor;
 public class PooledConnectionProxy implements Connection {
 
     Connection connection;
-    ConnectionPool pool;
 
-    public PooledConnectionProxy(Connection connection, ConnectionPool pool) {
+    public PooledConnectionProxy(Connection connection) {
         this.connection = connection;
-        this.pool = pool;
     }
 
     @Override
     public void close() {
-        pool.releaseConnection(connection);
+        ConnectionPool.getInstance().releaseConnection(connection);
     }
 
     @Override
