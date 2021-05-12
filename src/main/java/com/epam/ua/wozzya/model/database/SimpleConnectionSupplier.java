@@ -1,6 +1,6 @@
 package com.epam.ua.wozzya.model.database;
 
-import com.epam.ua.wozzya.util.ConnectionPropertiesConstants;
+import com.epam.ua.wozzya.util.PropertiesConfigKeys;
 import com.epam.ua.wozzya.util.PropertyExtractor;
 
 import java.io.IOException;
@@ -35,7 +35,8 @@ public class SimpleConnectionSupplier implements SupplierWithSQLException<Connec
 
     private String loadUrl() {
         try{
-            return PropertyExtractor.extractConnectionUrl(propertyPath);
+            return PropertyExtractor
+                    .extractByKey(PropertiesConfigKeys.DB_URL,propertyPath);
         }catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -54,7 +55,7 @@ public class SimpleConnectionSupplier implements SupplierWithSQLException<Connec
     private String loadUser() {
         try{
             return PropertyExtractor
-                    .extractByKey(ConnectionPropertiesConstants.DB__USER, propertyPath);
+                    .extractByKey(PropertiesConfigKeys.DB_USER, propertyPath);
         }catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -71,7 +72,7 @@ public class SimpleConnectionSupplier implements SupplierWithSQLException<Connec
     private String loadPassword() {
         try{
             return PropertyExtractor
-                    .extractByKey(ConnectionPropertiesConstants.DB__PASS, propertyPath);
+                    .extractByKey(PropertiesConfigKeys.DB_PASS, propertyPath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
