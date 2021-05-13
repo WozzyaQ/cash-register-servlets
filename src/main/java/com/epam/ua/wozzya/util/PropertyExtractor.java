@@ -3,6 +3,7 @@ package com.epam.ua.wozzya.util;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 public class PropertyExtractor {
@@ -14,7 +15,10 @@ public class PropertyExtractor {
         Properties prop = new Properties();
         try(InputStream is = new FileInputStream(propertyPath)) {
             prop.load(is);
-            return prop.getProperty(key);
+
+            String foundPropety = prop.getProperty(key);
+            Objects.requireNonNull(foundPropety);
+            return foundPropety;
         }
     }
 }
