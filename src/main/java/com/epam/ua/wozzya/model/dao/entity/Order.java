@@ -2,12 +2,10 @@ package com.epam.ua.wozzya.model.dao.entity;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.List;
-import java.util.Objects;
 
 public class Order extends AbstractEntity{
     private long id;
-    private Worker creator;
+    private long creator;
     private boolean closed;
     private Date dateCreated;
     private Date dateClosed;
@@ -15,8 +13,6 @@ public class Order extends AbstractEntity{
     private Date lastEdited;
     private String orderedBy;
     private BigDecimal total;
-
-    private List<Product> products;
 
     public long getId() {
         return id;
@@ -26,15 +22,15 @@ public class Order extends AbstractEntity{
         this.id = id;
     }
 
-    public Worker getCreator() {
+    public long getCreatorId() {
         return creator;
     }
 
-    public void setCreator(Worker creator) {
+    public void setCreator(long creator) {
         this.creator = creator;
     }
 
-    public boolean isClosed() {
+    public boolean getClosed() {
         return closed;
     }
 
@@ -90,14 +86,6 @@ public class Order extends AbstractEntity{
         this.total = total;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,20 +94,20 @@ public class Order extends AbstractEntity{
         Order order = (Order) o;
 
         if (id != order.id) return false;
+        if (creator != order.creator) return false;
         if (closed != order.closed) return false;
-        if (!Objects.equals(creator, order.creator)) return false;
-        if (!Objects.equals(dateCreated, order.dateCreated)) return false;
-        if (!Objects.equals(dateClosed, order.dateClosed)) return false;
-        if (!Objects.equals(comment, order.comment)) return false;
-        if (!Objects.equals(lastEdited, order.lastEdited)) return false;
-        if (!Objects.equals(orderedBy, order.orderedBy)) return false;
-        return Objects.equals(total, order.total);
+        if (dateCreated != null ? !dateCreated.equals(order.dateCreated) : order.dateCreated != null) return false;
+        if (dateClosed != null ? !dateClosed.equals(order.dateClosed) : order.dateClosed != null) return false;
+        if (comment != null ? !comment.equals(order.comment) : order.comment != null) return false;
+        if (lastEdited != null ? !lastEdited.equals(order.lastEdited) : order.lastEdited != null) return false;
+        if (orderedBy != null ? !orderedBy.equals(order.orderedBy) : order.orderedBy != null) return false;
+        return total != null ? total.equals(order.total) : order.total == null;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (creator != null ? creator.hashCode() : 0);
+        result = 31 * result + (int) (creator ^ (creator >>> 32));
         result = 31 * result + (closed ? 1 : 0);
         result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         result = 31 * result + (dateClosed != null ? dateClosed.hashCode() : 0);
