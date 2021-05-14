@@ -1,20 +1,31 @@
 package com.epam.ua.wozzya.model.dao;
 
-import com.epam.ua.wozzya.model.dao.entity.AbstractEntity;
+
+
 import java.sql.Connection;
-import java.util.List;
-import java.util.Optional;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public abstract class AbstractDao<I, E extends AbstractEntity> {
+
+public abstract class AbstractDao {
     protected Connection connection;
-
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
-    public abstract List<E> findAll() throws DaoException;
-    public abstract Optional<E> findById(I id) throws DaoException;
-    public abstract boolean create(E entity) throws DaoException;
-    public abstract boolean update(E entity) throws DaoException;
-    public abstract boolean delete(E entity) throws DaoException;
+    public void ensureOneRowAffected(int actualRowsAffected) throws DaoException {
+        if(actualRowsAffected != 1) {
+            throw new DaoException("affected more than 1 row");
+        }
+    }
+
+    public void closeResultSetUnsafe(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                //DO NOTHING
+            }
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.epam.ua.wozzya.model.db;
 
 
 import com.epam.ua.wozzya.model.dao.AbstractDao;
+import com.epam.ua.wozzya.model.dao.GenericDao;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -14,15 +15,15 @@ public class ConnectionManager {
     public ConnectionManager() {
     }
 
-    public void begin(boolean transaction, AbstractDao<?,?> ... daos) throws SQLException {
+    public void begin(boolean transaction, GenericDao<?>... daos) throws SQLException {
         if(connection == null) {
             connection = DBManager.getInstance().getConnection();
         }
 
         connection.setAutoCommit(!transaction);
 
-        for(AbstractDao<?,?> dao : daos) {
-            dao.setConnection(connection);
+        for(GenericDao<?> dao : daos) {
+            ((AbstractDao)dao).setConnection(connection);
         }
     }
 

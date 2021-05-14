@@ -12,6 +12,7 @@ import java.sql.SQLException;
 public class DBManager {
 
     private static DBManager instance;
+
     public static synchronized DBManager getInstance() {
         if (instance == null)
             instance = new DBManager();
