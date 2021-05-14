@@ -38,6 +38,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `projectdb`.`role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `projectdb`.`role` ;
+
+CREATE TABLE IF NOT EXISTS `projectdb`.`role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `role` ENUM("CASHIER", "COMMODITY_EXPERT", "SENIOR_CASHIER", "ON_HOLD") NOT NULL DEFAULT 'ON_HOLD',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `role_UNIQUE` (`role` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `projectdb`.`worker`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `projectdb`.`worker` ;
@@ -49,10 +62,17 @@ CREATE TABLE IF NOT EXISTS `projectdb`.`worker` (
   `surname` VARCHAR(20) NULL,
   `email` VARCHAR(45) NULL,
   `password` CHAR(128) NOT NULL,
+  `role_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE)
+  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE,
+  INDEX `fk_worker_role1_idx` (`role_id` ASC) VISIBLE,
+  CONSTRAINT `fk_worker_role1`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `projectdb`.`role` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -82,19 +102,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `projectdb`.`role`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `projectdb`.`role` ;
-
-CREATE TABLE IF NOT EXISTS `projectdb`.`role` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `role` ENUM("CASHIER", "COMMODITY_EXPERT", "SENIOR_CASHIER") NOT NULL DEFAULT 'CASHIER',
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `role_UNIQUE` (`role` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `projectdb`.`order_product`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `projectdb`.`order_product` ;
@@ -103,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `projectdb`.`order_product` (
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   `quantity` INT UNSIGNED NOT NULL DEFAULT 1,
-  `price` DECIMAL(15,2) NOT NULL,
+  `price` DECIMAL(15,2) NULL,
   `last_edited` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_id`, `product_id`),
   INDEX `fk_order_has_product_product1_idx` (`product_id` ASC) VISIBLE,
@@ -118,30 +125,6 @@ CREATE TABLE IF NOT EXISTS `projectdb`.`order_product` (
     REFERENCES `projectdb`.`product` (`id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `projectdb`.`worker_role`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `projectdb`.`worker_role` ;
-
-CREATE TABLE IF NOT EXISTS `projectdb`.`worker_role` (
-  `worker_id` INT NOT NULL,
-  `role_id` INT NOT NULL,
-  PRIMARY KEY (`worker_id`, `role_id`),
-  INDEX `fk_worker_has_role_role1_idx` (`role_id` ASC) VISIBLE,
-  INDEX `fk_worker_has_role_worker1_idx` (`worker_id` ASC) VISIBLE,
-  CONSTRAINT `fk_worker_has_role_worker1`
-    FOREIGN KEY (`worker_id`)
-    REFERENCES `projectdb`.`worker` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_worker_has_role_role1`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `projectdb`.`role` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 USE `projectdb`;

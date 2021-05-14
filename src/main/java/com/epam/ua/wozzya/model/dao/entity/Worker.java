@@ -12,10 +12,17 @@ public class Worker extends AbstractEntity{
     private String surname;
     private String email;
     private String password;
-    private List<Role> roles;
+    private Role role;
 
-    private List<OrderProduct> createdOrders;
 
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public long getId() {
         return id;
@@ -65,22 +72,6 @@ public class Worker extends AbstractEntity{
         this.password = password;
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<OrderProduct> getCreatedOrders() {
-        return createdOrders;
-    }
-
-    public void setCreatedOrders(List<OrderProduct> createdOrders) {
-        this.createdOrders = createdOrders;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,11 +80,12 @@ public class Worker extends AbstractEntity{
         Worker worker = (Worker) o;
 
         if (id != worker.id) return false;
-        if (!Objects.equals(login, worker.login)) return false;
-        if (!Objects.equals(name, worker.name)) return false;
-        if (!Objects.equals(surname, worker.surname)) return false;
-        if (!Objects.equals(email, worker.email)) return false;
-        return Objects.equals(password, worker.password);
+        if (login != null ? !login.equals(worker.login) : worker.login != null) return false;
+        if (name != null ? !name.equals(worker.name) : worker.name != null) return false;
+        if (surname != null ? !surname.equals(worker.surname) : worker.surname != null) return false;
+        if (email != null ? !email.equals(worker.email) : worker.email != null) return false;
+        if (password != null ? !password.equals(worker.password) : worker.password != null) return false;
+        return role == worker.role;
     }
 
     @Override
@@ -104,6 +96,9 @@ public class Worker extends AbstractEntity{
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
+
+
 }
