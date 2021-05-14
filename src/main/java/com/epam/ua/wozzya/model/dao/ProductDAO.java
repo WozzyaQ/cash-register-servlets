@@ -1,4 +1,6 @@
 package com.epam.ua.wozzya.model.dao;
 
-public interface ProductDAO {
+import com.epam.ua.wozzya.model.dao.entity.Product;
+
+public interface ProductDao extends GenericDao<Product> {
 }

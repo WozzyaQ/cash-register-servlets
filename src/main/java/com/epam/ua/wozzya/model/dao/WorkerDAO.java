@@ -1,4 +1,6 @@
 package com.epam.ua.wozzya.model.dao;
 
-public interface WorkerDAO {
+import com.epam.ua.wozzya.model.dao.entity.Worker;
+
+public interface WorkerDao extends GenericDao<Worker> {
 }
