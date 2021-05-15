@@ -6,11 +6,75 @@
          version="4.0">
 
 
-<display-name>Archetype Created Web Application</display-name>
+    <display-name>Cash Register Servlets</display-name>
 
-<welcome-file-list>
-  <welcome-file>index.jsp</welcome-file>
-</welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <!--    supported locales-->
+    <context-param>
+        <param-name>locales</param-name>
+        <param-value>ru en</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>dbmanager</param-name>
+        <param-value>com.epam.ua.wozzya.model.db.MySqlConnectionPoolSupplier</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>com.epam.ua.wozzya.web.listener.ContextListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>com.epam.ua.wozzya.web.Controller</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/api</url-pattern>
+    </servlet-mapping>
+
+    <!--    Command access filter -->
+<!--    <filter>-->
+<!--        <filter-name>CommandAccessFilter</filter-name>-->
+<!--        <filter-class>com.epam.ua.wozzya.web.filter.CommandAccessFilter</filter-class>-->
+<!--        <init-param>-->
+<!--            <param-name>ADMIN</param-name>-->
+<!--            <param-value></param-value>-->
+<!--        </init-param>-->
+<!--        <init-param>-->
+<!--            <param-name>CASHIER</param-name>-->
+<!--            <param-value></param-value>-->
+<!--        </init-param>-->
+<!--        <init-param>-->
+<!--            <param-name>SENIOR_CASHIER</param-name>-->
+<!--            <param-value></param-value>-->
+<!--        </init-param>-->
+<!--        <init-param>-->
+<!--            <param-name>COMMODITY_EXPERT</param-name>-->
+<!--            <param-value></param-value>-->
+<!--        </init-param>-->
+<!--        <init-param>-->
+<!--            <param-name>COMMON</param-name>-->
+<!--            <param-value></param-value>-->
+<!--        </init-param>-->
+<!--        <init-param>-->
+<!--            <param-name>ON_HOLD</param-name>-->
+<!--            <param-value></param-value>-->
+<!--        </init-param>-->
+<!--        <init-param>-->
+<!--            <param-name>NO_CONTROL</param-name>-->
+<!--            <param-value></param-value>-->
+<!--        </init-param>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>CommandAccessFilter</filter-name>-->
+<!--        <servlet-name>Controller</servlet-name>-->
+<!--    </filter-mapping>-->
 
 
 </web-app>
