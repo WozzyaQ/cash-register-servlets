@@ -7,17 +7,23 @@ import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class ConnectionManager {
     private static final Logger logger = Logger.getLogger(ConnectionManager.class);
     private Connection connection;
 
-    public ConnectionManager() {
+    private static ConnectionSupplier supplier;
+
+    public static void setSupplier(ConnectionSupplier supplier) {
+        ConnectionManager.supplier = supplier;
     }
 
     public void begin(boolean transaction, GenericDao<?>... daos) throws SQLException {
+        Objects.requireNonNull(supplier, "configure supplier first via ConnectionManager#setSupplier");
+
         if(connection == null) {
-            connection = DBManager.getInstance().getConnection();
+            connection = supplier.getConnection();
         }
 
         connection.setAutoCommit(!transaction);
@@ -31,7 +37,7 @@ public class ConnectionManager {
     public void end() throws SQLException {
         if(connection != null) {
             connection.setAutoCommit(true);
-            DBManager.getInstance().release(connection);
+            supplier.releaseConnection(connection);
         }
     }
 

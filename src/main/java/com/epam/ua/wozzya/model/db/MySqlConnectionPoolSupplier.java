@@ -9,14 +9,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 
-public class DBManager {
+public class MySqlConnectionPoolSupplier implements ConnectionSupplier{
 
-    private static DBManager instance;
 
-    public static synchronized DBManager getInstance() {
-        if (instance == null)
-            instance = new DBManager();
-        return instance;
+    public MySqlConnectionPoolSupplier() {
+        // reflection conscious
     }
 
     public Connection getConnection() throws SQLException {
@@ -33,10 +30,7 @@ public class DBManager {
         return con;
     }
 
-    private DBManager() {
-    }
-
-    public void release(Connection con) {
+    public void releaseConnection(Connection con) {
         try {
             con.close();
         } catch (SQLException e) {
